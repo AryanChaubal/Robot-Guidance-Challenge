@@ -16,7 +16,6 @@
 ;***************************************************************************************************
 
 ; LCD Equates - Defines instructions and control signals for LCD
-
 CLEAR_HOME    EQU   $01                   ; Clears display and resets cursor to home position
 INTERFACE     EQU   $38                   ; Sets as 8-bit interface and 2-line display
 CURSOR_OFF    EQU   $0C                   ; Cursor off
@@ -25,7 +24,6 @@ LCD_SEC_LINE  EQU   64                    ; Starting address of second line
 
 
 ; LCD Addresses
-
 LCD_CNTR      EQU   PTJ                   ; Control register for the LCD, pin 7= E signal, pin 6=RS signal
 LCD_DAT       EQU   PORTB                 ; LCD Data Register, data is written to pins PB7-PB0
 LCD_E         EQU   $80                   ; LCD E-signal pin
@@ -33,22 +31,17 @@ LCD_RS        EQU   $40                   ; LCD RS-signal pin, selects between s
 
 
 ;Timers
-
 T_LEFT        EQU   7                     ; Turn duration for left turn
 T_RIGHT       EQU   8                     ; Turn duration for right turn
 
 
-
 ; General Constants 
-
 NULL          EQU   00                    ; Null terminator for strings
 CR            EQU   $0D                   ; Represents carriage return character
 SPACE         EQU   ' '                   ; Space character
 
 
-
 ; Robot States
-
 START         EQU   0
 FWD           EQU   1
 ALL_STOP      EQU   2
@@ -58,18 +51,21 @@ REV_TRN       EQU   5
 LEFT_ALIGN    EQU   6                     
 RIGHT_ALIGN   EQU   7                     
 
+
 ; variable/data section
-; ---------------------
+; ----------------------
               ORG   $3800
 
+
 ; Initial values based on the initial readings & variance
-; -------------------------------------------------------
+; ---------------------------------------------------------
 ; Baseline values represent expected sensor readings under ideal conditions
 BASE_LINE     FCB   $A0    ; e and f - line sensor
 BASE_BOW      FCB   $AF    ; a       - front sensor
 BASE_MID      FCB   $AF    ; c       - mid sensor
 BASE_PORT     FCB   $AF    ; b       - port sensor
 BASE_STBD     FCB   $AF    ; d       - starboard sensor
+
 
 ; acceptable range of deviation from its baseline value
 LINE_VARIANCE           FCB   $18           
@@ -83,7 +79,6 @@ STARBOARD_VARIANCE      FCB   $15
 ; ex. for line sensor: 
 ; Reading below base_line - line_variance indicates deviation to right side, triggering a corrective left turn
 ; Reading above base_line + line variance indicates deviation to left side, triggering a corrective right turn 
-
 ; If sensor value exceeds base_bow + bow_variance, robot interprets this as hitting a wall and initiates REV_TURN 
 
 
